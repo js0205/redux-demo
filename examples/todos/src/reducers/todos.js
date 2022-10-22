@@ -1,17 +1,22 @@
 const todos = (state = [], action) => {
     switch (action.type) {
         case 'ADD_TODO':
-            return [
-                ...state,
-                {
-                    id: action.id,
-                    text: action.text,
-                    completed: false
-                }
-            ]
+            const loadTodo = () => {
+                return fetch(`http://google.com`)
+                    .then(res => res.json())
+                    .then(todo => {
+                        return [
+                            ...state,
+                            {
+                                id: action.id,
+                                text: action.text,
+                                completed: false
+                            }
+                        ]
+                    })
+            }
+            return loadTodo()
         case 'TOGGLE_TODO':
-            // const target = state.find(todo => todo.id === action.id);
-            // target.completed = !target.completed;
             return state.map(todo =>
                 (todo.id === action.id) ? {...todo, completed: !todo.completed } :
                 todo
